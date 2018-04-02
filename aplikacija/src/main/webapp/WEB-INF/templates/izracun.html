@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	  
+<head>
+
+<title>Procjena</title>
+<link rel="stylesheet" type="text/css" th:href="@{/resources/dizajn.css}" >
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+	<header>
+		
+		<form style="margin: 0 auto; width:500px;" method="POST" th:action='@{/logout}'>
+		
+			<label >Korisnik: </label>
+			<label  sec:authentication="principal.username" class="korisnik"> </label>
+			<button type="submit" class="odjava">Odjava</button>
+			
+		</form>
+		
+		<br>
+		<br>
+				
+	</header>
+
+	<section class="izracunSection">
+		
+		<br>
+		
+		<article>
+			<h1>Pregled odabranih podataka</h1>
+			
+			<p th:text="${'Korisnik:' + dodajVozilo.korisnik.punoIme}"></p>
+			<p th:text="${'Marka: ' + dodajVozilo.automobilMarka.marka}"></p>
+			<p th:text="${'Model: ' + dodajVozilo.automobilModel.naziv}"></p>
+			<p th:text="${'Godište: ' + dodajVozilo.automobilKarakteristike.godiste}"> </p>
+			<p th:text="${'Kilometraža: ' + dodajVozilo.automobilKarakteristike.kilometraza}"> </p>
+			<p th:text="${'Očuvanost: ' + dodajVozilo.automobilKarakteristike.ocuvanost}"> </p>
+			<p th:text="${'Oprema: ' + dodajVozilo.automobilKarakteristike.oprema}"> </p>
+			<p th:text="${'Motor: ' + dodajVozilo.automobilKarakteristike.motor}"> </p>
+			<p th:text="${'Mjenjač: ' + dodajVozilo.automobilKarakteristike.mjenjac}"> </p>
+			<p th:text="${'Vlasnik: ' + dodajVozilo.automobilKarakteristike.vlasnik}"> </p>
+			
+			<br><br>
+			
+			<h2 th:text="${'Procijenjena vrijednost je:' + ' ' + dodajVozilo.automobilModel.cijena + ' ' + 'HRK'}"></h2>
+			
+			<br><br>
+			
+			<button type="button" name="back" onclick="history.back()" class="pregled"> Izmijeni podatke </button>
+			
+	
+			
+			<!-- button u formi umjesto linka, name buttona i params metode moraju biti isti, tip zahtjeva forme i metode (GET request) takoder moraju biti isti -->
+			<div>
+				<form method="GET">
+					<button name="povratakNaPocetnu" class="pregled"> Nova procjena </button>
+				</form>
+			</div>
+			
+			<br>
+			
+			<div>
+				<form method="GET">
+					<button name="spremiProcjenu" class="procjeni"> Spremi procjenu </button>
+				</form>
+			</div>
+			
+		
+		</article>
+		
+	</section>
+	
+	<footer>
+			<p>&copy; 2018 Robert Sm</p>
+	</footer>
+	
+</body>
+</html>

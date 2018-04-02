@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+	<title>Spremljene procjene</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/resources/dizajn.css}" >
+	<meta charset="UTF-8">
+   
+	
+	<!-- 
+	
+	
+
+	
+	<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+-->
+
+	<script type="text/javascript" th:src="@{/resources/jquery-1.7.1.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/resources/jquery.dataTables.min.js}" ></script>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/resources/jquery.dataTables.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/jquery.dataTables_themeroller.css}">
+	
+
+	
+	<script src="resources/datatables.min.js"></script>
+	
+	
+	<script>
+		$(document).ready(function () {
+		    $("#example").DataTable();
+		});
+	</script>
+	
+	
+</head>
+
+<body >
+
+	<header>
+		
+		<form style="margin: 0 auto; width:500px;" method="POST" th:action='@{/logout}'>
+		
+			<label>Korisnik: </label>
+			<label sec:authentication="principal.username" class="korisnik"> </label>
+			<button type="submit" class="odjava">Odjava</button>
+			
+		</form>
+		
+		<br>
+		<br>				
+
+	</header>
+				
+
+	<section class="sectionSpremljeneProcjene">		
+	
+		<br>
+		<h1>Pregled procjena</h1>
+		<br>
+		<br>
+		
+		
+		<table id="example" class="dataTable" >
+		
+			<thead>
+				<tr>
+					<th>
+						<div sec:authorize = "hasRole('ROLE_ADMIN')">
+							<div> Korisnik </div>				
+						</div>
+					</th>
+					<th> Marka </th>
+					<th> Model </th>
+					<th> Godište </th>
+					<th> Kilometraža  </th>
+					<th> Cijena </th>
+					<th sec:authorize="hasRole('ROLE_ADMIN')"> Obriši procjenu </th>
+					
+				</tr>
+			</thead>
+
+			<tbody >
+				<tr th:each="entry : ${vozilo}">
+					<td>	
+						<div sec:authorize="hasRole('ROLE_ADMIN')">
+							<div th:text="${entry.korisnik.nick}"> </div>
+						</div>
+					</td>
+						
+					<td th:text="${entry.automobilMarka.marka}"></td>
+					<td th:text="${entry.automobilModel.naziv}"></td>
+					<td th:text="${entry.automobilKarakteristike.godiste}"></td>
+					<td th:text="${entry.automobilKarakteristike.kilometraza + ' km'}"></td>
+					<td th:text="${entry.cijena + ' HRK'}"></td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')">
+						<form method="GET">
+							<button name="obrisi" th:value="${entry.id}" class="obrisi"> Obriši </button>
+						</form>
+					</td>
+		
+				</tr>
+			</tbody>
+
+		</table>
+		
+				
+		<br>
+		<br>
+		<br>
+	
+		<form method="GET" >
+			<button name="pregledVozilaNaPocetnu" class="pregled"> Nova Procjena </button>
+		</form>
+	
+	</section>
+	
+	<footer>
+			<p>&copy; 2018 Robert Sm</p>
+	</footer>
+
+</body>
+</html>

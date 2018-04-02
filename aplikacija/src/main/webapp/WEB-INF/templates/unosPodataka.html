@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+<title>Procjena vrijednosti automobila</title>
+<link rel="stylesheet" type="text/css" th:href="@{/resources/dizajn.css}" >
+<meta charset="UTF-8">
+
+		<script> 
+			
+			function postaviMarku() {
+				
+				var ma = document.getElementById("selectMarkaId");
+				
+				var markaId = ma.options[ma.selectedIndex].value;
+				
+				window.location.href = "http://localhost:8080/seminar/unosPodataka" + '?MarkaId='+ markaId + '&ModelNaziv=0';
+				
+				return markaId;
+								
+			}
+			
+			
+			function postaviModel() {
+				
+				var mo = document.getElementById("selectModelNaziv");
+				
+				var modelNaziv = mo.options[mo.selectedIndex].value;
+				
+				var markaId = myFunction();
+								
+				window.location.href = "http://localhost:8080/seminar/unosPodataka" + '?MarkaId='+ markaId + '&ModelNaziv=' + modelNaziv;
+				
+			}
+
+		</script>
+
+</head>
+
+
+<body>
+
+	<header>
+		
+		<form style="margin: 0 auto; width:500px;" method="POST" th:action='@{/logout}'>
+		
+			<label >Korisnik: </label>
+			<label  sec:authentication="principal.username" class="korisnik"> </label>
+			<button type="submit" class="odjava">Odjava</button>
+			
+		</form>
+		
+		<br>
+		<br>
+				
+	</header>
+
+	
+	<section>
+	
+	<br>
+	<h1 id="naslovStranice">Odaberite karakteristike automobila </h1>
+	
+	<div sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER') ">
+	
+	<form id="formaMain" method="POST" th:object="${dodajVozilo}" th:action='@{/unosPodataka}'>
+	
+		<table>
+					
+			<tr>
+				<td><label>Marka:</label> </td>
+				<td>
+					<select th:field="*{automobilMarka}" id="selectMarkaId" onchange="postaviMarku()">
+						<option th:value="${prvaMarka.markaId}"  th:text="${prvaMarka.marka}"> </option>
+						<option 
+								th:each="pojedinaMarka : ${marke}"
+								th:value="${pojedinaMarka.markaId}" 
+								th:text="${pojedinaMarka.marka}">
+						</option>
+					</select>
+				</td>
+			</tr>
+				
+			<tr>
+				<td><label>Model:</label> </td>
+				<td>
+					
+					<select th:field="*{automobilModel}" id="selectModelNaziv" onchange="postaviModel()">
+					
+						<option th:value="${prviModel.naziv}"  th:text="${prviModel.naziv}"> </option>
+						<!-- th:value mora biti naziv inače ne radi -->
+						<option th:each="model : ${modeli}"
+								th:value="${model.naziv}" 
+								th:text="${model.naziv}">
+						</option>
+					</select>
+					
+				</td>
+			</tr>
+			
+			
+			
+			<tr>
+				<td><label>Godina proizvodnje: </label> </td>
+				<td>
+					<!-- jer godiste nije direktno unutar klase dodajVozilo nego unutar klase automobilKaratkeristike koja je podklasa klase dodajVozilo -->
+					<select th:field="*{automobilKarakteristike.godiste}" >
+					
+						<option th:each="godiste : ${godista}"
+								th:value="${godiste}" 
+								th:text="${godiste}">
+						</option>
+					</select>
+					
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<td> <label>Prijeđena kilometraža: </label> </td>
+				<td> <input type="text" th:field="*{automobilKarakteristike.kilometraza}" class="kilometraza"/> </td>				
+			</tr>
+			
+			<tr>
+				<td><label>Očuvanost: </label> </td>
+				<td>
+					
+					<select th:field="*{automobilKarakteristike.ocuvanost}" >
+					
+						<option th:each="ocuvanost : ${stanja}"
+								th:value="${ocuvanost}" 
+								th:text="${ocuvanost}">
+						</option>
+					</select>
+					
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<td><label>Oprema: </label> </td>
+				<td>
+					
+					<select th:field="*{automobilKarakteristike.oprema}" >
+					
+						<option th:each="oprema : ${opreme}"
+								th:value="${oprema}" 
+								th:text="${oprema}">
+						</option>
+					</select>
+					
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<td><label>Motor: </label> </td>
+				<td>
+					
+					<select th:field="*{automobilKarakteristike.motor}" >
+					
+						<option th:each="motor : ${motori}"
+								th:value="${motor}" 
+								th:text="${motor}">
+						</option>
+					</select>
+					
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<td><label>Mjenjac: </label> </td>
+				<td>
+					
+					<select th:field="*{automobilKarakteristike.mjenjac}" >
+					
+						<option th:each="mjenjac : ${mjenjaci}"
+								th:value="${mjenjac}" 
+								th:text="${mjenjac}">
+						</option>
+					</select>
+					
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<td><label>Vlasnik: </label> </td>
+				<td>
+					
+					<select th:field="*{automobilKarakteristike.vlasnik}" >
+					
+						<option th:each="vlasnik : ${vlasnici}"
+								th:value="${vlasnik}" 
+								th:text="${vlasnik}">
+						</option>
+					</select>
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<td> </td>
+				<td> </td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td style="text-align:right">
+					<button type="submit" name="saveButton" value="Spremi" class="procjeni"> Procijeni </button>
+				</td>
+			</tr>
+			
+			
+		</table>
+		
+	</form>
+	
+	</div>
+	
+	<div sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER') ">
+	
+		<div style="width:250px;" class="tableDiv">
+			<a th:href="@{/spremljeneProcjene}">
+				<button class="pregled"> Pregled svih procjena </button>
+			</a>
+		</div>
+	
+	</div>
+	
+	</section>
+	
+	<footer>
+		<p>&copy; 2018 Robert Sm</p>
+	</footer>
+
+</body>
+</html>

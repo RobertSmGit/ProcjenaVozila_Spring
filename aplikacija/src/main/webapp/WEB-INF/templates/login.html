@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<title>Prijava u aplikaciju</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/resources/dizajn.css}" >
+</head>
+
+<body onload='document.f.j_username.focus();'>
+
+	<header>
+		
+		<div class="prijavaHeader"  >
+		
+			<h1 >Prijava u aplikaciju</h1>
+			
+		</div>
+				
+	</header>
+
+	<section>
+		<h3>Unesite korisničko ime i lozinku</h3>
+		<form name='f' method='POST' th:action='@{/login}'>
+			<table>
+				<tr>
+					<td>Korisničko ime:</td>
+					
+						<p th:if="${param.error}" style="color:red;" >Pogrešno korisničko ime ili lozinka!</p>
+						<p th:if="${param.logout}" style="color:green;" >Uspješno ste odjavljeni.</p>
+						<p th:if="${param.access}" style="color:red;" >Zabranjen pristup</p>
+					
+					<td><input class="form-control" type='text' name='username' value=''></td>
+				</tr>
+				<tr>
+					<td>Lozinka:</td>
+					<td><input class="form-control" type='password' name='password' /></td>
+				</tr>
+				<tr>
+					<td colspan='2'><button name="submit" type="submit" class="prijava">Prijavi se</button></td>
+				</tr>
+			</table>
+		</form>
+	</section>
+	
+	<footer>
+			<p>&copy; 2018 Robert Sm</p>
+	</footer>
+
+</body>
+</html>

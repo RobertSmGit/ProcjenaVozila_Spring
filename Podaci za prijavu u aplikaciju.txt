@@ -1,0 +1,2 @@
+korisnicko ime: admin	lozinka: seminar
+korisnicko ime: robert	lozinka: seminar
